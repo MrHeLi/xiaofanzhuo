@@ -35,6 +35,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'apps.news',
+    'apps.cms',
+    'apps.xfzauth',
 ]
 
 MIDDLEWARE = [
@@ -74,8 +77,17 @@ WSGI_APPLICATION = 'xiaofanzhuo.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        # 数据库名称
+        'NAME': 'xiaofanzhuo',
+        # 连接mysql数据库的用户名
+        'USER': 'root',
+        # 连接mysql数据库的密码
+        'PASSWORD': '12345678',
+        # mysql数据库的主机地址
+        'HOST': '127.0.0.1',
+        # mysql数据库的端口号
+        'PORT': '3306',
     }
 }
 
@@ -96,6 +108,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTH_USER_MODEL = 'xfzauth.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/

@@ -13,9 +13,9 @@ const bs = require("browser-sync").create();
 
 const path = {
     'html': './templates/**/',
-    'css': './src/css/**/',
-    'js': './src/js/',
-    'images': './src/images/',
+    'css': './apps/css/**/',
+    'js': './apps/js/',
+    'images': './apps/images/',
     'css_dist': './dist/css/',
     'js_dist': './dist/js/',
     'images_dist': './dist/images/'
@@ -38,7 +38,7 @@ gulp.task('css', function (done) {
 });
 
 // gulp.task('js', function (done) {
-//     gulp.src(path.js + '*.js')
+//     gulp.apps(path.js + '*.js')
 //         .pipe(sourcemaps.init)
 //         .pipe(uglify({
 //             'toplevel': true
