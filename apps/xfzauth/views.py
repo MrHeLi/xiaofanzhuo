@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import login, logout, authenticate
 from django.views.decorators.http import require_POST
 from .forms import LoginForm
@@ -31,3 +31,8 @@ def login_view(request):
     else:
         data = form.get_error()
         return restful.params_error(message=data)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect(reverse('news:index'))

@@ -106,6 +106,8 @@ Auth.prototype.run = function () {
 };
 
 $(function () {
+    var auth = new Auth();
+    auth.run();
     var bar = new Barss();
     bar.runs();
 });
