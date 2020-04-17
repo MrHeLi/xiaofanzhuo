@@ -13,6 +13,7 @@ class UserManager(BaseUserManager):
             raise ValueError('请传入密码')
 
         user = self.model(telephone=telephone, username=username, **kwargs)
+        print(type(user))
         user.set_password(password)
         user.save()
         return user

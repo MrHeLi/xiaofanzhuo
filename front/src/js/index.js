@@ -68,7 +68,6 @@ Banner.prototype.toggleArrow = function (isShow) {
 };
 
 Banner.prototype.listenArrowClick = function () {
-    console.log("listenArrowClick");
     var self = this;
     self.leftArrow.click(function () {
         self.index--;
@@ -121,6 +120,7 @@ Banner.prototype.run = function () { // 给类定义函数
     this.initPageControl();
     this.listenPageControl();
     this.initBanner();
+    console.log("Banner listenArrowClick");
 };
 
 // $ jquery定义的，只有在文本元素加载完后才会执行
