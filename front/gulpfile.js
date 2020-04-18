@@ -55,9 +55,7 @@ gulp.task('css', function (done) {
 gulp.task('js', function (done) {
     gulp.src(path.js + '*.js')
         .pipe(sourcemaps.init())
-        .pipe(uglify({
-            // 'toplevel': true
-        }))
+        .pipe(uglify())
         .pipe(rename({'suffix': ".min"}))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(path.js_dist))

@@ -24,6 +24,7 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, telephone, username, password, **kwargs):
         kwargs['is_superuser'] = True
+        kwargs['is_staff'] = True
         return self.__create_user(telephone, username, password, **kwargs)
 
 
@@ -31,7 +32,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     # 不实用默认自增主键 shortuu
     uid = ShortUUIDField(primary_key=True)
     telephone = models.CharField(max_length=11, unique=True)
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True, null=True)
     username = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -41,7 +42,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['username']
     EMAIL_FIELD = 'email'
 
-    object = UserManager()
+    objects = UserManager()
 
     def get_full_name(self):
         return self.username

@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.urls import path, include
 from apps.news import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -22,4 +24,4 @@ urlpatterns = [
     path('cms/', include('apps.cms.urls', namespace="cms")),
     path('account/', include('apps.xfzauth.urls', namespace="xfzauth")),
     path('course/', include('apps.course.urls', namespace="course")),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

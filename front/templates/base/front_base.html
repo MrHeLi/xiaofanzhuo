@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="//at.alicdn.com/t/font_1748588_rz7h4nfj23s.css">
     <link rel="stylesheet" href="{% static 'css/common/auth.min.css' %}">
     <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/message.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/newajax.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/base/front_base.min.js' %}"></script>
     {% block head %}
@@ -40,7 +41,7 @@
                 <div class="user-more-box">
                     <i class="triangle"></i>
                     {% if user.is_staff %}
-                        <a href="#">管理系统</a>
+                        <a href="{% url 'cms:login' %}">管理系统</a>
                     {% endif %}
                     <a href="{% url 'xfzauth:logout' %}" class="menu_bar">退出登录</a>
                 </div>
@@ -145,7 +146,7 @@
                                 <input type="text" class="form-control" name="img_captcha" placeholder="请输入验证码">
                             </div>
                             <div class="input-group-addon">
-                                <img src="" alt="">
+                                <img src="{% url 'xfzauth:img_captcha' %}" class="img-captcha" alt="">
                             </div>
                         </div>
                         <div class="input-group">
@@ -156,14 +157,14 @@
                         </div>
                         <div class="input-group">
                             <div class="short-input-group">
-                                <input type="text" class="form-control" name="captcha-btn" placeholder="短信验证码">
+                                <input type="text" class="form-control" name="sms_captcha" placeholder="短信验证码">
                             </div>
                             <div class="input-group-addon">
                                 <span class="sms-captcha-btn">发送短信验证码</span>
                             </div>
                         </div>
                         <div class="input-group">
-                            <input type="submit" class="submit-btn" value="立即注册">
+                            <input type="submit" class="submit-btn" value="立即注册" name="submit-btn">
                         </div>
                     </div>
                 </div>
