@@ -101,7 +101,7 @@ Banner.prototype.listenPageControl = function () {
 
 Banner.prototype.animate = function () {
     var self = this;
-    this.bannerUl.animate({"left": -self.bannerWidth * self.index}, 500);
+    this.bannerUl.stop().animate({"left": -self.bannerWidth * self.index}, 500);
     var index = self.index;
     if (index === 0) {
         index = self.bannerCount - 1;
@@ -123,8 +123,107 @@ Banner.prototype.run = function () { // 给类定义函数
     console.log("Banner listenArrowClick");
 };
 
+function Index() {
+    var self = this;
+    self.page = 1;
+    self.category_id;
+    template.defaults.imports.timeSince = function (date) {
+
+        var date = new Date(date);
+        var datets = date.getTime();
+        var nowts = (new Date()).getTime();
+        var timestamp = (nowts - datets) / 1000;
+
+        if (timestamp < 60) {
+            return '刚刚';
+        } else if (timestamp >= 60 && timestamp < 60 * 60) {
+            var minutes = timestamp / 60;
+            return minutes + '分钟前';
+        } else if (timestamp >= 60 * 60 && timestamp < 60 * 60 * 24) {
+            var hours = int(timestamp / 60 / 60);
+            return hours + '小时前';
+        } else if (timestamp >= 60 * 60 * 24 && timestamp < 60 * 60 * 24 * 30) {
+            var days = timestamp / 60 / 60 / 24;
+            return days + '天前';
+        } else {
+            var year = date.getFullYear();
+            var month = date.getMonth();
+            var day = date.getDay();
+            var hour = date.getHours();
+            var minute = date.getMinutes();
+            return year + '/' + month + '/' + day + ' ' + hour + ':' + minute;
+        }
+    };
+}
+
+Index.prototype.listenLoadMore = function () {
+    var self = this;
+    var loadMoreBtn = $('#load-more-btn');
+    loadMoreBtn.click(function () {
+        var page = 1;
+        myajax.get({
+            'url': '/news/list/',
+            'data': {
+                'p': self.page,
+                'category_id': self.category_id
+            },
+            'success': function (result) {
+                if (result['code'] === 200) {
+                    var news = result['data'];
+                    if (news.length <= 0) {
+                        loadMoreBtn.hide();
+                        return;
+                    }
+                    var tpl = template("news-item", {"newses": news});
+                    var ul = $(".list-inner-group");
+                    ul.append(tpl);
+                    self.page++;
+                }
+            }
+        })
+    });
+};
+
+Index.prototype.listenCategoryClick = function () {
+    var self = this;
+    var tabGroup = $(".list-tab");
+    tabGroup.children().click(function () {
+        var li = $(this);
+        var category_id = li.attr("data-category");
+        self.category_id = category_id;
+        var page = 1;
+        myajax.get({
+            'url': '/news/list/',
+            'data': {
+                'p': page,
+                'category_id': category_id
+            },
+            'success': function (result) {
+                if (result['code'] === 200) {
+                    var news = result['data'];
+                    var tpl = template("news-item", {"newses": news});
+                    var ul = $(".list-inner-group");
+                    ul.empty(); // 将标签下的所有子元素删掉
+                    ul.append(tpl);
+                    self.page = 1;
+                    li.addClass('active').siblings().removeClass('active');
+                }
+            }
+        });
+    });
+};
+
+Index.prototype.run = function () {
+    var self = this;
+    self.listenLoadMore();
+    self.listenCategoryClick();
+    console.log('hello');
+};
+
 // $ jquery定义的，只有在文本元素加载完后才会执行
 $(function () {
     var banner = new Banner(); // 创建类对象
     banner.run();
+    var index = new Index();
+    index.run();
 });

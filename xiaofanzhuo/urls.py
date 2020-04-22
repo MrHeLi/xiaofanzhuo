@@ -24,4 +24,16 @@ urlpatterns = [
     path('cms/', include('apps.cms.urls', namespace="cms")),
     path('account/', include('apps.xfzauth.urls', namespace="xfzauth")),
     path('course/', include('apps.course.urls', namespace="course")),
+    path('ueditor/', include('apps.ueditor.urls', namespace="ueditor")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+
+        # For django versions before 2.0:
+        # url(r'^__debug__/', include(debug_toolbar.urls)),
+
+    ] + urlpatterns

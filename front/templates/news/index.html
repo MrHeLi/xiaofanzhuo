@@ -1,4 +1,5 @@
 {% extends 'base/front_base.html' %}
+{% load news_filters %}
 
 {% block title %}
     Homer|首页
@@ -7,6 +8,30 @@
 {% block head %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/news/index.min.css' %}">
     <script src="{% static 'js/index.min.js' %}"></script>
+    <script src="{% static 'arttemplate/template-web.js' %}"></script>
+    <script id="news-item" type="text/html">
+        {% verbatim %}
+        {{ each newses news index }}
+        <li>
+            <div class="thumbnail-group">
+                <a href="/news/{{ news.id }}"><img
+                        src="{{ news.thumbnail }}"
+                        alt=""></a>
+            </div>
+
+            <div class="news-group">
+                <p class="news-title"><a href="/news/{{ news.id }}">{{ news.title }}</a></p>
+                <p class="desc">{{ news.desc }}</p>
+                <p class="more">
+                    <span class="category">{{ news.category.name }}</span>
+                    <span class="pub-time">{{ news.pub_time }}</span>
+                    <span class="author">{{ news.author.username }}</span>
+                </p>
+            </div>
+        </li>
+        {{ /each }}
+        {% endverbatim %}
+    </script>
 {% endblock %}
 
 {% block main %}
@@ -30,36 +55,37 @@
 
                 <div class="list-outer-group">
                     <ul class="list-tab">
-                        <li class="active"><a href="#">最新资讯</a></li>
-                        <li><a href="#">新消费</a></li>
-                        <li><a href="#">教育</a></li>
-                        <li><a href="#">物流</a></li>
-                        <li><a href="#">保险医疗</a></li>
+                    <li data-category="0"><a href="javascript:void(0);">最新资讯</a></li>
+                        {% for category in categories %}
+                            <li data-category="{{ category.pk }}"><a href="#">{{ category.name }}</a></li>
+                        {% endfor %}
+
                     </ul>
 
                     <ul class="list-inner-group">
-                        <li>
-                            <div class="thumbnail-group">
-                                <a href="#"><img src="https://static-image.xfz.cn/1586653208_128.jpg-website.news.list"
-                                                 alt=""></a>
-                            </div>
+                        {% for news in newses %}
+                            <li>
+                                <div class="thumbnail-group">
+                                    <a href="{% url 'news:news_detail' news_id=news.pk %}"><img
+                                            src="{{ news.thumbnail }}"
+                                            alt=""></a>
+                                </div>
 
-                            <div class="news-group">
-                                <p class="news-title"><a href="">热点
-                                    早报：西贝因涨价道歉；特斯拉半数美国销售和交付人员临时休假；新加坡暂停使用Zoom在线授课</a></p>
-                                <p class="desc">广东餐饮协会提议美团：取消独家条款，降佣5%及以上
-                                    西贝特斯拉Zoom40分钟前史素云</p>
-                                <p class="more">
-                                    <span class="category">深度报道</span>
-                                    <span class="pub-time">一小时前</span>
-                                    <span class="author">Homer</span>
-                                </p>
-                            </div>
-                        </li>
+                                <div class="news-group">
+                                    <p class="news-title"><a href="{% url 'news:news_detail' news_id=news.pk %}">{{ news.title }}</a></p>
+                                    <p class="desc">{{ news.desc }}</p>
+                                    <p class="more">
+                                        <span class="category">{{ news.category.name }}</span>
+                                        <span class="pub-time">{{ news.pub_time|time_since }}</span>
+                                        <span class="author">{{ news.author.username }}</span>
+                                    </p>
+                                </div>
+                            </li>
+                        {% endfor %}
                     </ul>
 
                     <div class="load-more">
-                        <button class="load-more">查看更多</button>
+                        <button class="load-more" id="load-more-btn">查看更多</button>
                     </div>
                 </div>
 

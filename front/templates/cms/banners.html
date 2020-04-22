@@ -1,0 +1,89 @@
+{% extends 'cms/base.html' %}
+
+{% block title %}
+    轮播图管理
+{% endblock %}
+
+{% block head %}
+    <style>
+        .btn-group {
+            float: left;
+        }
+
+        .tips {
+            float: left;
+        }
+
+        .banner-item {
+            width: 800px;
+        }
+
+        .thumbnail-group {
+            float: left;
+            width: 230px;
+        }
+
+        .thumbnail-group .thumbnail {
+            width: 100%;
+        }
+
+        .more-group {
+            float: left;
+            margin-left: 20px;
+            width: 500px;
+        }
+    </style>
+    <script src="{% static 'arttemplate/template-web.js' %}"></script>
+    <script src="{% static 'js/banners.min.js' %}"></script>
+{% endblock %}
+
+{% block content-header %}
+    <b style="size: A3">轮播图管理</b>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn-group">
+                <button class="btn btn-primary" id="add-banner-btn">
+                    <i class="fa fa-plus"></i>
+                    添加轮播图
+                </button>
+            </div>
+            <ul class="tips">
+                <li>支持JPG,GIF,PNG格式，最多可上传6张</li>
+                <li>比例4:1，宽度在800px以上，5M以内</li>
+            </ul>
+        </div>
+    </div>
+    <div class="banner-list-group"></div>
+    <script id="banner-item" type="text/html">
+        {% verbatim %}
+        <div class="box banner-item">
+            <div class="box-header">
+                <span>优先级：0</span>
+                <button class="btn btn-default btn-xs pull-right">
+                    <i class="fa fa-close"></i>
+                </button>
+            </div>
+            <div class="box-body">
+                <div class="thumbnail-group">
+                    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1587438838070&di=259bd85b4663f50e7db798d8ac19b493&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20190830%2Ff9f5efbcfdad48fcac16cdd90d42c488.jpeg"
+                         alt="" class="thumbnail">
+                </div>
+                <div class="more-group">
+                    <div class="form-group">
+                        <input type="number" class="form-control" name="position">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="link_to">
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button class="btn btn-primary pull-right">保存</button>
+            </div>
+        </div>
+        {% endverbatim %}
+    </script>
+{% endblock %}
